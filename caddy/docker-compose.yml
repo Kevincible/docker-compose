@@ -3,11 +3,12 @@ services:
     build: ./caddy-build
     restart: unless-stopped
     networks:
-      - passthrough
+      vlan:
+        ipv4_address: $ADDR
     volumes:
       - $CONFDIR/Caddyfile:/etc/caddy/Caddyfile
 
 networks:
-  passthrough:
-    name: pub_net
+  vlan:
+    name: docker_vlan
     external: true
