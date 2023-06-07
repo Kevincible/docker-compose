@@ -1,6 +1,6 @@
 services:
   caddy:
-    build: https://github.com/Kevincible/docker-compose#main:caddy/caddy-build
+    build: https://github.com/Kevincible/docker-compose.git#main:/caddy/caddy-build
     restart: unless-stopped
     networks:
       vlan:
