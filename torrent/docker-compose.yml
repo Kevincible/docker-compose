@@ -5,6 +5,8 @@ services:
     networks:
       vlan:
         ipv4_address: $ADDR_QBIT
+    dns:
+      - 114.114.114.114
     environment:
       - PUID=1000
       - PGID=1000
@@ -22,7 +24,7 @@ services:
       - UMASK_SET=022
       - RPC_SECRET=admin
       - RPC_PORT=6800
-      - LISTEN_PORT=6888
+      - LISTEN_PORT=48851
       - DISK_CACHE=64M
       - IPV6_MODE=false
       - UPDATE_TRACKERS=true
@@ -33,6 +35,8 @@ services:
     networks:
       vlan:
         ipv4_address: $ADDR_ARIA
+    dns:
+      - 114.114.114.114
     restart: unless-stopped
     logging:
       driver: json-file
