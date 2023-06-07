@@ -1,0 +1,61 @@
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    networks:
+      vlan:
+        ipv4_address: $ADDR_QBIT
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+      - WEBUI_PORT=8080
+    volumes:
+      - downloads:/downloads
+    restart: unless-stopped
+  Aria2-Pro:
+    container_name: aria2-pro
+    image: p3terx/aria2-pro
+    environment:
+      - PUID=65534
+      - PGID=65534
+      - UMASK_SET=022
+      - RPC_SECRET=admin
+      - RPC_PORT=6800
+      - LISTEN_PORT=6888
+      - DISK_CACHE=64M
+      - IPV6_MODE=false
+      - UPDATE_TRACKERS=true
+      - CUSTOM_TRACKER_URL=https://cf.trackerslist.com/best_aria2.txt
+      - TZ=Asia/Shanghai
+    volumes:
+      - downloads:/downloads
+    networks:
+      vlan:
+        ipv4_address: $ADDR_ARIA
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+  AriaNg:
+    container_name: ariang
+    image: p3terx/ariang
+    command: --port 6880
+    network_mode: bridge
+    ports:
+     - 6880:6880
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: 1m
+
+volumes:
+  downloads:
+    external: true
+
+networks:
+  vlan:
+    name: docker_vlan
+    external: true
