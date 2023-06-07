@@ -1,0 +1,13 @@
+services:
+  caddy:
+    build: ./caddy-build
+    restart: unless-stopped
+    networks:
+      - passthrough
+    volumes:
+      - $CONFDIR/Caddyfile:/etc/caddy/Caddyfile
+
+networks:
+  passthrough:
+    name: pub_net
+    external: true
